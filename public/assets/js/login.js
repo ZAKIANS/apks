@@ -2,7 +2,10 @@
 
 
 // let url='https://qubanglestore.herokuapp.com';
-let url = "http://localhost:8080";
+// let url = "http://localhost:8080";
+// let url='https://store.webzeco.com';
+let url='https://qub-store.herokuapp.com';
+
 
 // let url='https://store.webzeco.com'
 let g_category;
@@ -22,6 +25,11 @@ function login() {
     .then(
       (response) => {
         console.log(response);
+        const token=response.data.token
+        console.log(token);
+       console.log(parseJwt(token));
+        var expiresIn = new Date(new Date().getTime()+(5*24*60*60*1000));
+        document.cookie = `jwt=${token}; expires=${expiresIn}; path=/`
         window.location = "/dashboard";
       },
       (error) => {
@@ -29,6 +37,13 @@ function login() {
         console.log(error);
       }
     );
+}
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
 }
 const sings = document.getElementById("c_ups");
 if (sings) {
@@ -403,7 +418,10 @@ const allSliders = async () => {
     console.log(error);
   }
 };
-allSliders();
+// allSliders();
+if (document.querySelector("#s_tbody")) {
+  allSliders();
+}
 
 async function deleteSlider(title) {
   try {

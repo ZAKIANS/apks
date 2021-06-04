@@ -22,17 +22,34 @@ app.engine(
 
 app.use(express.json());
 app.use(cors({origin:true}));
+
 // app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname,"public")));
+app.use((req,res,next)=>{
+  console.log(req.cookies);
+  next();
+  });
 app.use("/apk", apkRouts);
 app.use("/user", userRouts);
 app.use("/", viewRouts);
-
+app.get('*',(re,res)=>{
+  res.status(200).json({data:'Something wend wrong '});
+})
 hbr.registerHelper("createCate", function (row) {
   return row;
 });
 hbr.registerHelper("navbar", function(user) {
-  if (user.role=='admin') {
+  if (!user) {
+    return `
+    <li class="nav-item">
+    <a href="dashboard" class="nav-link active"><i
+        class="icon-home4"></i><span>Dashboard</span></a>
+  </li>
+  <li class="nav-item">
+							<a href="products" class="nav-link "><i class="icon-unfold"></i><span>Apk's</span></a>
+						</li>
+  `
+  }else if (user.role=='admin') {
     return `
     <li class="nav-item">
 							<a href="dashboard  " class="nav-link active"><i

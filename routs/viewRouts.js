@@ -2,6 +2,7 @@ const express = require("express");
 const Router = express.Router();
 const authController = require("../controller/authController");
 const viewController = require("./../controller/viewController");
+// Router.get("/", viewController.frontend);
 Router.get("/", viewController.signin);
 Router.get("/signup", viewController.signup);
 Router.use(authController.protect);
@@ -9,10 +10,8 @@ Router.get("/profile", viewController.profile);
 Router.get("/products",  viewController.products);
 Router.get("/dashboard", viewController.dashboard);
 Router.get("/addproduct", viewController.addproducts);
-
 Router.use(authController.restrictTo("admin"));
 Router.get("/users", viewController.users);
-
 Router.get("/addsubcategory", viewController.addSubcategory);
 Router.get("/subcategory", viewController.subcategory);
 Router.get("/editsubcategory", viewController.editsubcategory);

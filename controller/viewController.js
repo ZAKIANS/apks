@@ -2,12 +2,17 @@ const Apk = require("../models/apkModel");
 const Category = require("../models/categoryModel");
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
+const path=require('path');
+// exports.frontend= (req, res) => {
+//   res.sendFile(path.join(__dirname, `../public/apksf/index.html`));
+// };
 exports.signin= (req, res) => {
     res.render("signin",{layout:'logs'});
   };
  exports.signup= (req, res) => {
     res.render("signup",{layout:'logs'});
   };
+ 
   exports.dashboard= catchAsync( async (req, res) => {
     const {name,role}=req.user;
     let apk;

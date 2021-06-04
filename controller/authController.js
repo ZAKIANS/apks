@@ -30,20 +30,22 @@ const createAndSendToken = (user, statusCode, res) => {
     expires: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
     httpOnly: true,
   };
-  if (process.env.NODE_ENV == "production") {
-    cookieOptions.secure = true;
-  }
-  cookieOptions.secure = false;
+  // if (process.env.NODE_ENV == "production") {
+  //   cookieOptions.secure = true;
+  // }
+  cookieOptions.secure = true;
+  
 
   // name of the cookie jwt
   // cookie data is token
   // cookie properties are cookieOptions
-  res.cookie("jwt", token, cookieOptions);
+  // res.cookie("jwt", token, cookieOptions);
   // removing new created user password
   user.password = undefined;
   // res.header('x-token', token)
   //   .header('access-control-expose-headers', 'x-token')
-  if (app.locals)  app.locals.user = user;
+  // if (app.locals)  app.locals.user = user;
+  res.locals.user=user;
   res.status(statusCode).json({
     status: "success",
     token,
@@ -69,7 +71,7 @@ exports.signin = catchAsync(async (req, res, next) => {
     return next(new AppError("please enter complete detail", 404));
   const user = await User.findOne({ name }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password)))
-    return next(new AppError("Incorrect username or password", 401));
+    return next(new AppError("Incorrect username or password", 403));
   createAndSendToken(user, 200, res);
 });
 
@@ -121,7 +123,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   res.locals.user = currentUser;
   next();
 });
-
 exports.restrictTo = (...role) => {
   return (req, res, next) => {
     if (!role.includes(req.user.role)) {
@@ -152,6 +153,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
+  req.user=user;
   createAndSendToken(user, 200, res);
 });
 
@@ -226,6 +228,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save({
     validator: true,
   });
+  req.user=user;
   createAndSendToken(user, 200, res);
   // update changePasswordAt property for user
   // login the user with JWT
