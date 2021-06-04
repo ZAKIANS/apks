@@ -4,7 +4,7 @@
 // let url='https://qubanglestore.herokuapp.com';
 // let url = "http://localhost:8080";
 // let url='https://store.webzeco.com';
-let url='https://qub-store.herokuapp.com';
+let url='https://admin-qub-store.herokuapp.com';
 
 
 // let url='https://store.webzeco.com'
