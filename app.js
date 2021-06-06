@@ -19,7 +19,6 @@ app.engine(
     extname: "hbs",
   })
 );
-
 app.use(express.json());
 app.use(cors({origin:true}));
 
@@ -66,6 +65,9 @@ hbr.registerHelper("navbar", function(user) {
 							<a href="products" class="nav-link "><i class="icon-unfold"></i><span>Apk's</span></a>
 						</li>
 						<li class="nav-item ">
+							<a href="users" class="nav-link"><i class="icon-people"></i> <span>Staff</span></a>
+						</li>
+            <li class="nav-item ">
 							<a href="users" class="nav-link"><i class="icon-people"></i> <span>Users</span></a>
 						</li>
     `;
@@ -79,7 +81,6 @@ hbr.registerHelper("navbar", function(user) {
   <li class="nav-item">
 							<a href="products" class="nav-link "><i class="icon-unfold"></i><span>Apk's</span></a>
 						</li>
- 
   `
   }
 });

@@ -5,8 +5,6 @@
 // let url = "http://localhost:8080";
 // let url='https://store.webzeco.com';
 let url='https://admin-qub-store.herokuapp.com';
-
-
 // let url='https://store.webzeco.com'
 let g_category;
 let files = []; //This is multiple images
@@ -64,6 +62,7 @@ if (sings) {
         email,
         password,
         passwordConfirm,
+        staff:true
       })
       .then(
         (response) => {

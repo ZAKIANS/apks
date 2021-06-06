@@ -27,6 +27,7 @@ const signToken = (user) => {
 const createAndSendToken = (user, statusCode, res) => {
   const token = signToken(user);
   const cookieOptions = {
+    domain:'.qub-store.com',
     expires: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
     httpOnly: true,
   };
@@ -34,12 +35,11 @@ const createAndSendToken = (user, statusCode, res) => {
   //   cookieOptions.secure = true;
   // }
   cookieOptions.secure = true;
-  
-
   // name of the cookie jwt
   // cookie data is token
   // cookie properties are cookieOptions
-  // res.cookie("jwt", token, cookieOptions);
+  res.cookie('jwt', 'tobi', { domain: '.example.com', path: '/admin', secure: true });
+  res.cookie("jwt", token, cookieOptions);
   // removing new created user password
   user.password = undefined;
   // res.header('x-token', token)
@@ -61,6 +61,7 @@ exports.signup = catchAsync(async (req, res) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
+    staff:req.body.staff
   });
   createAndSendToken(newUser, 200, res);
 });

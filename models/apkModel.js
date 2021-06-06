@@ -30,6 +30,10 @@ const apkSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    staff: {
+      type: Boolean,
+      default: false,
+    },
     editorChoice: {
       type: Boolean,
       default: false,
