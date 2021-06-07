@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-let url = "http://localhost:4000";
+// let url = "http://localhost:4000";
+let url='https://admin.qub-store.com';
 // let url='https://store.webzeco.com';
 // let url='https://admin-qub-store.herokuapp.com';
 
