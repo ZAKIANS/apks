@@ -34,9 +34,7 @@ Router.get("/allApk", apkController.getAllApk);
 
 // restricted to admin
 Router.use(authController.restrictTo("admin"));
-
 Router.get("/states", apkController.getStates);
-
 Router.delete("/deleteApk/:title", apkController.deleteApk);
 Router.patch("/updateActions", apkController.updateActions);
 // slider apis

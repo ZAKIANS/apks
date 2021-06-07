@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-// let url = "http://localhost:8080";
+let url = "http://localhost:4000";
 // let url='https://store.webzeco.com';
-let url='https://admin-qub-store.herokuapp.com';
+// let url='https://admin-qub-store.herokuapp.com';
 
 const params = new URLSearchParams(window.location.search);
 const cate = params.get("cate");
@@ -60,7 +60,7 @@ const allsubcate = async () => {
       window.location=`/subcategory?cate=${cate}`;
     } catch (error) {
       console.log({error});
-      alert('Something went wrong!!!')
+      alert('Something went wrong!!!');
     }
     }
   

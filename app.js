@@ -8,7 +8,14 @@ const path=require('path')
 const hbr = require("handlebars");
 const cors=require('cors');
 // const morgan = require("morgan");
-
+// 
+app.use((req,res,next)=>{
+// console.log(req.headers);
+  console.log({
+    user:req.user?req.user.role:'no user'
+  }); 
+next();
+});
 app.set("view engine", "hbs");
 app.engine(
   "hbs",
@@ -24,10 +31,10 @@ app.use(cors({origin:true}));
 
 // app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname,"public")));
-app.use((req,res,next)=>{
-  console.log(req.cookies);
-  next();
-  });
+// app.use((req,res,next)=>{
+//   console.log(req.cookies);
+//   next();
+//   });
 app.use("/apk", apkRouts);
 app.use("/user", userRouts);
 app.use("/", viewRouts);

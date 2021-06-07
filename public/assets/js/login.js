@@ -2,9 +2,9 @@
 
 
 // let url='https://qubanglestore.herokuapp.com';
-// let url = "http://localhost:8080";
+let url = "http://localhost:4000";
 // let url='https://store.webzeco.com';
-let url='https://admin-qub-store.herokuapp.com';
+// let url='https://admin-qub-store.herokuapp.com';
 // let url='https://store.webzeco.com'
 let g_category;
 let files = []; //This is multiple images
@@ -23,12 +23,12 @@ function login() {
     .then(
       (response) => {
         console.log(response);
-        const token=response.data.token
-        console.log(token);
-       console.log(parseJwt(token));
-        var expiresIn = new Date(new Date().getTime()+(5*24*60*60*1000));
-        document.cookie = `jwt=${token}; expires=${expiresIn}; path=/`
-        window.location = "/dashboard";
+      //   const token=response.data.token
+      //   console.log(token);
+      //  console.log(parseJwt(token));
+      //   var expiresIn = new Date(new Date().getTime()+(5*24*60*60*1000));
+      //   document.cookie = `jwt=${token}; expires=${expiresIn}; path=/`
+       window.location = "/dashboard";
       },
       (error) => {
         alert("Incorrect username or password");

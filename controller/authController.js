@@ -34,11 +34,11 @@ const createAndSendToken = (user, statusCode, res) => {
   // if (process.env.NODE_ENV == "production") {
   //   cookieOptions.secure = true;
   // }
-  cookieOptions.secure = true;
+  // cookieOptions.secure = true;
   // name of the cookie jwt
   // cookie data is token
   // cookie properties are cookieOptions
-  res.cookie('jwt', 'tobi', { domain: '.example.com', path: '/admin', secure: true });
+  // res.cookie('jwt', 'tobi', { domain: '.example.com', path: '/admin', secure: true });
   res.cookie("jwt", token, cookieOptions);
   // removing new created user password
   user.password = undefined;
@@ -88,7 +88,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   } else if (req.headers.cookie) {
-    token =   req.headers.cookie.substr(4)
+    console.log({cookie:req.headers.cookie});
+    console.log({subcookie:req.headers.cookie.substr(18)});
+    token =   req.headers.cookie.substr(18)
   } 
   else {
     return next(
@@ -98,6 +100,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   // console.log(req.cookies.jwt);
   // console.log(req.headers.authorization);
   // 2) verification of token
+  console.log("Protector");
+  console.log(token);
+  console.log("Protector");
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   // if verification if pass then decoded value  like below
   // decoded={
@@ -106,12 +111,13 @@ exports.protect = catchAsync(async (req, res, next) => {
   //   exp: 1598291926
   //  }
   // 3) check user still exist not delete
+ 
   let currentUser = await User.findById(decoded.id);
+  
   if (!currentUser)
     return next(
       new AppError("No user belong to this token please try again", 401)
     );
-
   // 4) check if user change the password after generating token
   if (currentUser.changePasswordAfter(decoded.iat)) {
     return next(
@@ -126,6 +132,9 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 exports.restrictTo = (...role) => {
   return (req, res, next) => {
+    console.log("Protector");
+  console.log(req.user);
+  console.log("Protector");
     if (!role.includes(req.user.role)) {
       next(new AppError("You do not  have permission to do this action", 403));
     }
