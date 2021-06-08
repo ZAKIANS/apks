@@ -11,10 +11,10 @@ const cors=require('cors');
 // 
 // app.use((req,res,next)=>{
 // console.log(req.headers);
-//   console.log({
-//     user:req.user?req.user.role:'no user',
-//     cookie:req.headers.cookie
-//   }); 
+//   // console.log({
+//   //   user:req.user?req.user.role:'no user',
+//   //   cookie:req.headers.cookie
+//   // }); 
 // next();
 // });
 app.set("view engine", "hbs");
@@ -33,7 +33,7 @@ app.use(cors({origin:true}));
 // app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname,"public")));
 // app.use((req,res,next)=>{
-//   console.log(req.cookies);
+//   console.log("hello");
 //   next();
 //   });
 app.use("/apk", apkRouts);

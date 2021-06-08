@@ -27,7 +27,6 @@ const signToken = (user) => {
 const createAndSendToken = (user, statusCode, res) => {
   const token = signToken(user);
   const cookieOptions = {
-    domain:'.qub-store.com',
     expires: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
     httpOnly: true,
   };
@@ -40,9 +39,10 @@ const createAndSendToken = (user, statusCode, res) => {
   // cookie properties are cookieOptions
   // res.cookie('jwt', 'tobi', { domain: '.example.com', path: '/admin', secure: true });
   res.cookie("jwt", token, cookieOptions);
+  // res.cookie('name',"abdulrehman",cookieOptions)
   // removing new created user password
   user.password = undefined;
-  // res.header('x-token', token)
+  // res.header('x-token', token);
   //   .header('access-control-expose-headers', 'x-token')
   // if (app.locals)  app.locals.user = user;
   res.locals.user=user;
@@ -77,6 +77,7 @@ exports.signin = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
+
   let token;
   // 1 ) check the token have user
   if (req.headers["x-token"] ) {
@@ -90,7 +91,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else if (req.headers.cookie) {
     // console.log({cookie:req.headers.cookie});
     // console.log({subcookie:req.headers.cookie.substr(4)});
-    token =   req.headers.cookie.substr(4,req.headers.cookie.indexOf(';'));
+    token =   req.headers.cookie.substr(4);
   } 
   else {
     return next(
@@ -112,9 +113,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   //   exp: 1598291926
   //  }
   // 3) check user still exist not delete
-  console.log("current user");
-  console.log(decoded);
-  console.log("current user");
+  // console.log("current user");
+  // console.log(decoded);
+  // console.log("current user");
   let currentUser = await User.findOne({name:decoded.name});
   if (!currentUser)
     return next(
@@ -140,7 +141,6 @@ exports.restrictTo = (...role) => {
     next();
   };
 };
-
 exports.logout = (req, res) => {
   res.cookie("jwt", "logging out", {
     expires: new Date(Date.now() + 10 * 1000),
