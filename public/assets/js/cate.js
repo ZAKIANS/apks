@@ -3,10 +3,6 @@ const params = new URLSearchParams(window.location.search);
 const cate = params.get("cate");
 // let url = "http://localhost:4000";
 let url='https://admin.qub-store.com';
-
-  // let url='https://qubanglestore.herokuapp.com';
-  // let url='https://admin-qub-store.herokuapp.com';
-  // let url='https://store.webzeco.com';
 const addCates=document.getElementById('c_button');
 if (addCates) {
   addCates.addEventListener('click',(e)=>{

@@ -1,12 +1,8 @@
 /* eslint-disable no-undef */
 
 
-// let url='https://qubanglestore.herokuapp.com';
 // let url = "http://localhost:4000";
 let url='https://admin.qub-store.com';
-// let url='https://store.webzeco.com';
-// let url='https://admin-qub-store.herokuapp.com';
-// let url='https://store.webzeco.com'
 let g_category;
 let files = []; //This is multiple images
 let g_subCategory;

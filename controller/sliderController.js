@@ -1,6 +1,5 @@
 const Slider = require("../models/sliderModel");
 const catchAsync = require("../utils/catchAsync");
-
 exports.addSlider = catchAsync(async (req, res) => {
     console.log(req.body);
     const { title } = req.body;

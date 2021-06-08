@@ -1,8 +1,6 @@
 /* eslint-disable no-undef */
 // let url = "http://localhost:4000";
 let url='https://admin.qub-store.com';
-// let url='https://store.webzeco.com';
-// let url='https://admin-qub-store.herokuapp.com';
 
 const params = new URLSearchParams(window.location.search);
 const cate = params.get("cate");
@@ -22,7 +20,7 @@ const allsubcate = async () => {
             ${index+1}
         </td>
         <td>
-           <img src='https://cdn3.vectorstock.com/i/1000x1000/86/82/cool-word-text-with-handwritten-rainbow-vibrant-vector-23928682.jpg'
+           <img src='${url}/img/${cate.image}'
    alt="Profile Picture" class="img-responsive img-rounded rounded-circle"
    style="max-height: 80px; max-width: 60px;"
    >
@@ -35,7 +33,7 @@ const allsubcate = async () => {
             <a href="/addsubcategory?cate=${category}" class="btn btn-circle btn-primary">Edit</a>
         </td>
     </tr>
-          `;
+          `
         const li = document.createElement("tr");
         li.innerHTML = lis;
         li.querySelector(".downs").addEventListener("click", (e) => {

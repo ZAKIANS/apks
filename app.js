@@ -9,13 +9,14 @@ const hbr = require("handlebars");
 const cors=require('cors');
 // const morgan = require("morgan");
 // 
-app.use((req,res,next)=>{
+// app.use((req,res,next)=>{
 // console.log(req.headers);
-  console.log({
-    user:req.user?req.user.role:'no user'
-  }); 
-next();
-});
+//   console.log({
+//     user:req.user?req.user.role:'no user',
+//     cookie:req.headers.cookie
+//   }); 
+// next();
+// });
 app.set("view engine", "hbs");
 app.engine(
   "hbs",
@@ -38,9 +39,9 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use("/apk", apkRouts);
 app.use("/user", userRouts);
 app.use("/", viewRouts);
-app.get('*',(re,res)=>{
-  res.status(200).json({data:'Something wend wrong '});
-})
+// app.get('*',(re,res)=>{
+//   res.status(200).json({data:[{data:"rout not found"}]});
+// });
 hbr.registerHelper("createCate", function (row) {
   return row;
 });

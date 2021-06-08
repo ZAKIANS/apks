@@ -204,6 +204,7 @@ exports.updateActions = catchAsync(async (req, res) => {
     { title: req.body.title },
     { actions: req.body.actions }
   );
+  console.log({title:req.body.title,actions:req.body.actions});
   const updatedApk = await Apk.findOne({ title: req.body.title });
   res.status(201).json({
     data: updatedApk,
