@@ -7,9 +7,11 @@ const path=require('path');
 //   res.sendFile(path.join(__dirname, `../public/apksf/index.html`));
 // };
 exports.signin= (req, res) => {
+  res.clearCookie("jwt");
     res.render("signin",{layout:'logs'});
   };
  exports.signup= (req, res) => {
+  res.clearCookie("jwt");
     res.render("signup",{layout:'logs'});
   };
  
