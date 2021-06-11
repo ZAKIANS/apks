@@ -10,6 +10,7 @@ Router.get("/profile", viewController.profile);
 Router.get("/products",  viewController.products);
 Router.get("/dashboard", viewController.dashboard);
 Router.get("/addproduct", viewController.addproducts);
+Router.get("/editproduct", viewController.editProduct);
 Router.use(authController.restrictTo("admin"));
 Router.get("/users", viewController.users);
 Router.get("/addsubcategory", viewController.addSubcategory);

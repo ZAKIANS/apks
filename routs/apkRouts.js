@@ -16,7 +16,11 @@ Router.get("/getcategory/:category", apkController.getcategory);
 Router.get("/samecate/:cate", apkController.getSameCateApps);
 // protected routes
 Router.use(authController.protect);
+Router.get("/oneapk/:title", apkController.getOneApk);
+
 Router.post("/addApk", apkController.uploadImage, apkController.addApk);
+// http://localhost:4000/apk/updateApk/testing%20app%2009
+Router.patch("/apkupdate/:apkTitle", apkController.updateApk);
 Router.patch(
   "/addApkFile/:title",
   apkController.uploadFile,
@@ -52,6 +56,11 @@ Router.patch(
   "/addSubCate/:cate",
   apkController.uploadImage,
   apkController.addSubCategory
+);
+Router.patch(
+  "/editSubCate/:cate/:subcate",
+  apkController.uploadImage,
+  apkController.editSubCategory
 );
 Router.get(
   "/subcate/:cate",

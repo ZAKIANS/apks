@@ -14,6 +14,19 @@ const allsubcate = async () => {
           window.location=`/addsubcategory?cate=${category}`
       });
       data.data.subCategory.map((cate,index) => {
+        let cates=category;
+        if ( cates.includes('&')) {
+          cates =cates.replace(/&/g, '-');
+        }
+        let subcates=cate.name;
+        if ( subcates.includes('&')) {
+          subcates =subcates.replace(/&/g, '-');
+        }
+        let slugs=cate.slug;
+        if ( slugs.includes('&')) {
+          slugs =slugs.replace(/&/g, '-');
+        }
+
         const lis = ` 
         <tr>
         <td>
@@ -30,7 +43,7 @@ const allsubcate = async () => {
         </td>
         <td class="text-right">
             <a id="deleteItem" title="${cate.name}" class="btn m-2 btn-circle btn-danger text-white downs">Delete</a>
-            <a href="/addsubcategory?cate=${category}" class="btn btn-circle btn-primary">Edit</a>
+            <a href="/editsubcategory?cate=${cates}&subcate=${subcates}&slug=${slugs}" class="btn btn-circle btn-primary">Edit</a>
         </td>
     </tr>
           `
@@ -54,8 +67,7 @@ const allsubcate = async () => {
      const rs=await axios.delete(`${url}/apk/deletesubcate/${cate}`,{data:{
        name:title
      }});
-     console.log({rs});
-
+    //  console.log({rs});
       window.location=`/subcategory?cate=${cate}`;
     } catch (error) {
       console.log({error});

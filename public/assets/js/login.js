@@ -203,7 +203,8 @@ const addApk = async () => {
   const hot = document.getElementById("hot").checked;
   const top = document.getElementById("top").checked;
   const file = document.getElementById("file").files[0];
-  // const website = document.getElementById("website").value;
+
+  const version = document.getElementById("version").value;
   const description = document.getElementById("description").value;
   const image = document.getElementById("image").files[0];
   const title = document.getElementById("title").value;
@@ -221,7 +222,7 @@ const addApk = async () => {
   formData.append("hot", hot);
   formData.append("top", top);
   formData.append("description", description);
-  // formData.append("website", website);
+  formData.append("version", version);
   formData.append("image", image);
   const configImages = {
     onUploadProgress: function (progressEvent) {
@@ -274,7 +275,6 @@ const addApk = async () => {
     console.log(error);
   }
 };
-
 // preview multiple images
 function previewImages() {
   var preview = document.querySelector("#preview");
@@ -324,13 +324,21 @@ if (document.querySelector("#file-input")) {
 // }
 async function deleteItem(title) {
   try {
-    console.log(title);
+    // console.log(title);
     await axios.delete(`${url}/apk/deleteApk/${title}`);
     window.location = "/products";
   } catch (error) {
     alert("Something went wrong!!!");
   }
 }
+async function editRedirect(_title) {
+  let title=_title;
+  if ( title.includes('&')) {
+    cates =title.replace(/&/g, '-');
+  } 
+  window.location=`/editproduct?title=${title}`
+}
+
 
 async function approve(item) {
   try {

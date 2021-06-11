@@ -14,7 +14,10 @@ exports.signin= (req, res) => {
   res.clearCookie("jwt");
     res.render("signup",{layout:'logs'});
   };
- 
+ exports.editProduct=catchAsync(async (req, res) => {
+  const cate=await Category.find().lean();
+  res.render("editproduct",  {cate,path:'/img/'}  );
+});
   exports.dashboard= catchAsync( async (req, res) => {
     const {name,role}=req.user;
     let apk;
@@ -61,6 +64,7 @@ exports.home=catchAsync(async (req, res) => {
   });
   exports.addproducts=catchAsync(async (req, res) => {
     const cate=await Category.find().lean();
+    
     console.log({cate});
     res.render("addproducts",{cate,path:'/img/'});
   });

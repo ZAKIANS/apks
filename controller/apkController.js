@@ -104,11 +104,57 @@ exports.uploadImagesHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
+exports.updateApk= catchAsync(async (req, res, next) => {
+  console.log({ body: req.body });
+  const user = req.user;
+  const {apkTitle}=  req.params;
+    const actions=user.role=='admin'? 'approved':'pending';
+    const hot = req.body.hot == "true";
+    const top = req.body.top == "true";
+    const feature = req.body.feature == "true";
+    const trending = req.body.trending == "true";
+    // const filename = req.file.filename;
+    const {
+      requirements,
+      category,
+      subCategory,
+      tags,
+      title,
+      developer,
+      description,
+      version,
+      // website,
+    } = req.body;
+    // console.log({ apkTitle });
+    // if (!title )
+    //   return next(new AppError("please enter complete detail", 404));
+    const apk = await Apk.findOneAndUpdate({title:apkTitle},{
+      creator: req.user.name,
+      actions,
+      user,
+      version,
+      category,
+      subCategory,
+      requirements,
+      title,
+      tags,
+      developer,
+      // image: filename,
+      description,
+      hot,
+      // officialWebsite: website,
+      editorChoice: feature,
+      trending: trending,
+      top,
+    });
+    res.status(201).json({
+      data: apk,
+    });
+  });
+  
 exports.addApk = catchAsync(async (req, res, next) => {
 // console.log({ body: req.body, image: req.file });
 const user = req.user;
-
   const actions=user.role=='admin'? 'approved':'pending';
   const hot = req.body.hot == "true";
   const top = req.body.top == "true";
@@ -244,6 +290,7 @@ exports.deleteSubcategory=catchAsync(async (req, res) => {
   await Category.findOneAndUpdate({category:req.params.cate},{subCategory:rmc});
   res.status(200).json({ data ,rmc});
 });
+
 exports.addSubCategory = catchAsync(async (req, res) => {
   console.log(req.body);
   const { cate } = req.params;
@@ -252,6 +299,32 @@ exports.addSubCategory = catchAsync(async (req, res) => {
   const newSubCate = { name: subCate, image: filename, slug: slug };
   const category = await Category.findOne({ category: cate });
   category.subCategory.push(newSubCate);
+  await Category.findByIdAndUpdate(category._id, {
+    subCategory: category.subCategory,
+  });
+  const allCate = await Category.find();
+  res.status(201).json({
+    data: allCate,
+  });
+});
+
+
+exports.editSubCategory = catchAsync(async (req, res) => {
+  console.log(req.body);
+  const { cate,subcate } = req.params;
+  
+  const { slug, } = req.body;
+  const filename = req.file ? req.file.filename:null;
+  const newSubCate = { name: subcate, image: filename, slug: slug };
+  const category = await Category.findOne({ category: cate });
+ const index= category.subCategory.findIndex(e=> e.name===subcate );
+ console.log({index:index});
+ const subcategory= category.subCategory[index];
+ subcategory.name=subcate;
+ if (filename) subcategory.image=filename;
+ subcategory.slug=slug;
+ category.subCategory[index]=subcategory;
+ console.log({subcategory});
   await Category.findByIdAndUpdate(category._id, {
     subCategory: category.subCategory,
   });
@@ -274,6 +347,13 @@ exports.getAllCate = catchAsync(async (req, res) => {
   const data = await Category.find();
   res.status(200).json({ data });
 });
+exports.getOneApk = catchAsync(async (req, res) => {
+  const {title}=req.params;
+console.log({title});
+  const data = await Apk.findOne({title});
+  res.status(200).json({ data });
+});
+
 exports.getStates = catchAsync(async (req, res) => {
   const data = await Category.find();
   res.status(200).json({ data });

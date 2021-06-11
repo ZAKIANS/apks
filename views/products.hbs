@@ -140,7 +140,7 @@
             </td>
             <td>
               <div class="d-flex flex-row bd-highlight my-1">
-                <p class="btn mr-2 btn-circle user_word_list_item btn-warning">Edit </p>
+                <a   onclick="editRedirect({{{json this.title}}})" class="btn mr-2 btn-circle  user_word_list_item btn-warning">Edit </a>
                 {{!-- <a class="btn  btn-circle downs btn-danger mb-2 text-white delete" title={{title}}>Delete</a> --}}
                 <button class="btn btn-danger" onclick="deleteItem({{{json this.title}}})">Delete</button>
               </div>
