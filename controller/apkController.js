@@ -4,6 +4,7 @@ const Category = require("../models/categoryModel");
 const Apk = require("../models/apkModel");
 const multer = require("multer");
 const path=require('path');
+const Statics = require("../models/staticsModel");
 // var public = path.join(__dirname, '../public/apk/');
 
 
@@ -104,8 +105,16 @@ exports.uploadImagesHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
-exports.updateApk= catchAsync(async (req, res, next) => {
-  console.log({ body: req.body });
+exports.updateStatics=catchAsync(async (req, res) => {
+      const filename = req.params.image;
+await Statics.findOneAndUpdate({title:"client"},{image:filename});
+console.log({filename});
+res.status(200).json({
+  message:"statics updated successfully"
+})
+} );
+exports.updateApk= catchAsync(async (req, res) => {
+  console.log( req.body ,'abdulrehman');
   const user = req.user;
   const {apkTitle}=  req.params;
     const actions=user.role=='admin'? 'approved':'pending';
@@ -147,6 +156,8 @@ exports.updateApk= catchAsync(async (req, res, next) => {
       trending: trending,
       top,
     });
+    if(req.file)
+    await Apk.findOneAndUpdate({title:apkTitle},{image: req.file.filename});
     res.status(201).json({
       data: apk,
     });

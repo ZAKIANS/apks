@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-
-
+const params = new URLSearchParams(window.location.search);
+const apkTitle = params.get("title");
 // let url = "http://localhost:4000";
 let url='https://admin.qub-store.com';
 let g_category;
@@ -195,7 +195,7 @@ function removeAllChildNodes(parent) {
     parent.removeChild(parent.firstChild);
   }
 }
-const addApk = async () => {
+const addApk= async () => {
   console.log("we are adding apks");
   const developer = document.getElementById("developer").value;
   const trending = document.getElementById("trending").checked;
@@ -247,11 +247,40 @@ const addApk = async () => {
     },
   };
   try {
+    if (apkTitle) {
+       await axios.patch(`${url}/apk/apkupdate/${apkTitle}`, formData );
+      //  if (files.length>0) {
+      //   const fd = new FormData();
+      //   let ins = files.length;
+      //   for (var x = 0; x < ins; x++) {
+      //     fd.append("images", files[x]);
+      //   }
+      //   const rs2 = await axios.patch(
+      //     `${url}/apk/addApkImages/${title}`,
+      //     fd,
+      //     configImages
+      //   );
+      //  }
+      //  if (file.length>0) {
+      //   console.log({ rs2 });
+      //   const fileData = new FormData();
+      //   fileData.append("file", file);
+      //   const rs3 = await axios.patch(
+      //     `${url}/apk/addApkFile/${title}`,
+      //     fileData,
+      //     configApk
+      //   );
+      //   console.log({ rs3 });
+      //   // console.log({result,datas});
+      return  window.location = "/products";
+       }
+    
+    // Adding apk
     const rs1 = await axios.post(`${url}/apk/addApk`, formData);
     console.log({ rs1 });
     const fd = new FormData();
-    var ins = files.length;
-    for (var x = 0; x < ins; x++) {
+    let ins = files.length;
+    for (let x = 0; x < ins; x++) {
       fd.append("images", files[x]);
     }
     const rs2 = await axios.patch(
@@ -298,7 +327,7 @@ function previewImages() {
       image.src = this.result;
       preview.appendChild(image);
     });
-
+    console.log(files);
     reader.readAsDataURL(file);
   }
 }
@@ -373,7 +402,6 @@ if (addSliders) {
     addSlider(formData);
   });
 }
-
 async function addSlider(formData) {
   try {
     const slider = await axios.post(`${url}/apk/addslider`, formData);
@@ -446,3 +474,97 @@ async function switchslider(title) {
     alert("Something went wrong!!!");
   }
 }
+
+
+const editApks = async () => {
+  console.log("we are adding");
+  console.log("we are adding apks");
+  const developer = document.getElementById("developer").value;
+  const trending = document.getElementById("trending").checked;
+  const feature = document.getElementById("feature").checked;
+  const hot = document.getElementById("hot").checked;
+  const top = document.getElementById("top").checked;
+  const file = document.getElementById("file").files[0];
+  const version = document.getElementById("version").value;
+  const description = document.getElementById("description").value;
+  const image = document.getElementById("image").files[0];
+  const title = document.getElementById("title").value;
+  const requirements = document.getElementById("requirements").value;
+  const tags = document.getElementById("tags").value;
+  console.log({img:image});
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("category", g_category);
+  formData.append("subCategory", g_subCategory);
+  formData.append("developer", developer);
+  formData.append("trending", trending);
+  formData.append("feature", feature);
+  formData.append("requirements", requirements);
+  formData.append("tags", tags);
+  formData.append("hot", hot);
+  formData.append("top", top);
+  formData.append("description", description);
+  formData.append("version", version);
+  formData.append("image", image);
+
+   const configImages = {
+    onUploadProgress: function (progressEvent) {
+      var percentCompleted = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      console.log(percentCompleted);
+      var dragonHealth = document.getElementById("health1").value;
+      console.log(dragonHealth);
+      document.getElementById("health1").value = percentCompleted;
+    },
+  };
+  const configApk = {
+    onUploadProgress: function (progressEvent) {
+      var percentCompleted = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      console.log(percentCompleted);
+      var dragonHealth = document.getElementById("health1").value;
+      console.log(dragonHealth);
+      document.getElementById("health2").value = percentCompleted;
+    },
+  };
+  try {
+    const rs1 = await axios.patch(`${url}/apk/apkupdate/${apkTitle}`, formData );
+    console.log({ rs1 });
+    const images=document.getElementById('file-input').files.length;
+   if (images) {
+    const fd = new FormData();
+    var ins = files.length;
+    for (var x = 0; x < ins; x++) {
+      fd.append("images", files[x]);
+    }
+    const rs2 = await axios.patch(
+      `${url}/apk/addApkImages/${apkTitle}`,
+      fd,
+      configImages
+    );
+    console.log({ rs2 });
+   }
+    console.log({file});
+    const apkfile=document.getElementById('file').files.length;
+    if (apkfile) {
+      const fileData = new FormData();
+    fileData.append("file", file);
+    const rs3 = await axios.patch(
+      `${url}/apk/addApkFile/${apkTitle}`,
+      fileData,
+      configApk
+    );
+    console.log({ rs3 });
+    window.location = "/products";
+    }
+     }
+    // console.log({result,datas});
+     catch (error) {
+    console.log(error);
+  }
+};
+
+
+///////////////////////////////////////////////

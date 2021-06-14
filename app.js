@@ -9,14 +9,14 @@ const hbr = require("handlebars");
 const cors=require('cors');
 // const morgan = require("morgan");
 // 
-// app.use((req,res,next)=>{
-// console.log(req.headers);
-//   // console.log({
-//   //   user:req.user?req.user.role:'no user',
-//   //   cookie:req.headers.cookie
-//   // }); 
-// next();
-// });
+app.use((req,res,next)=>{
+console.log(req.headers.authorization);
+  // console.log({
+  //   user:req.user?req.user.role:'no user',
+  //   cookie:req.headers.cookie
+  // }); 
+next();
+});
 app.set("view engine", "hbs");
 app.engine(
   "hbs",

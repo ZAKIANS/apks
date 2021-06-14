@@ -68,6 +68,7 @@ exports.signup = catchAsync(async (req, res) => {
 
 exports.signin = catchAsync(async (req, res, next) => {
   const { name, password } = req.body;
+  console.log({body:req.body});
   if (!name || !password)
     return next(new AppError("please enter complete detail", 404));
   const user = await User.findOne({ name }).select("+password");
@@ -82,12 +83,16 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 1 ) check the token have user
   if (req.headers["x-token"] ) {
     token = req.headers["x-token"];
-    // console.log(token);
+    // console.log({newToken:token});
   } else if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.authorization
+    //  &&
+    // req.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    // token = req.headers.authorization.split(" ")[1];
+    token=req.headers.authorization.substr(4);
+    console.log({mytoken:token});
+
   } else if (req.headers.cookie) {
     // console.log({cookie:req.headers.cookie});
     // console.log({subcookie:req.headers.cookie.substr(4)});
@@ -152,6 +157,7 @@ exports.logout = (req, res) => {
 };
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const user = await User.findById(req.user._id).select("+password");
   if (
     !user ||

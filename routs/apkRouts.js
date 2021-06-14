@@ -1,8 +1,10 @@
 const express = require("express");
+const multer = require("multer");
 const Router = express.Router();
 const apkController = require("../controller/apkController");
 const authController = require("../controller/authController");
 const sliderController=require("../controller/sliderController");
+const upload=multer();
 Router.get("/activesliders",sliderController.getAllActive);
 Router.get("/approved", apkController.allApprovedApk);
 Router.get("/trend", apkController.trendingApks);
@@ -11,7 +13,7 @@ Router.get("/getAllCate", apkController.getAllCate);
 Router.get("/download/:title", apkController.getDownload);
 Router.get("/:title", apkController.getApk);
 Router.get("/getcategory/:category", apkController.getcategory);
-
+Router.patch("/updateStatics/:image", apkController.updateStatics);
 // here cate means subCate
 Router.get("/samecate/:cate", apkController.getSameCateApps);
 // protected routes
@@ -19,8 +21,9 @@ Router.use(authController.protect);
 Router.get("/oneapk/:title", apkController.getOneApk);
 
 Router.post("/addApk", apkController.uploadImage, apkController.addApk);
+
 // http://localhost:4000/apk/updateApk/testing%20app%2009
-Router.patch("/apkupdate/:apkTitle", apkController.updateApk);
+Router.patch("/apkupdate/:apkTitle",apkController.uploadImage, apkController.updateApk);
 Router.patch(
   "/addApkFile/:title",
   apkController.uploadFile,

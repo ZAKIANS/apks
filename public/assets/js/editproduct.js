@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 const params = new URLSearchParams(window.location.search);
-const formData = new FormData();
 const apkTitle = params.get("title");
 async function getApk() {
   let title = apkTitle;
@@ -17,7 +16,6 @@ async function getApk() {
   }
 }
 getApk();
-
 function loadData(apk) {
   document.getElementById("developer").value = apk.developer;
   document.getElementById("trending").checked=apk.trending;
@@ -31,23 +29,26 @@ function loadData(apk) {
   document.getElementById("version").value=apk.version;
   document.getElementById("requirements").value=apk.requirements;
   document.getElementById("tags").value=apk.tags;
+  g_category=apk.category;
+  g_subCategor=apk.subCategory;
 }
 /////////////////////////////////
 const editApks = async () => {
   console.log("we are adding");
-  console.log("we are adding apks");
   const developer = document.getElementById("developer").value;
   const trending = document.getElementById("trending").checked;
   const feature = document.getElementById("feature").checked;
   const hot = document.getElementById("hot").checked;
   const top = document.getElementById("top").checked;
-  const file = document.getElementById("file").files[0];
+  // const file = document.getElementById("file");
   const version = document.getElementById("version").value;
   const description = document.getElementById("description").value;
-  const image = document.getElementById("image").files[0];
+  const image = document.getElementById("image");
   const title = document.getElementById("title").value;
   const requirements = document.getElementById("requirements").value;
   const tags = document.getElementById("tags").value;
+  console.log({image:image.files.length});
+  const formData = new FormData();
   formData.append("title", title);
   formData.append("category", g_category);
   formData.append("subCategory", g_subCategory);
@@ -61,30 +62,29 @@ const editApks = async () => {
   formData.append("description", description);
   formData.append("version", version);
   formData.append("image", image);
-  formData.append('name',"abdulrehman");
-  console.log(formData);
-   const configImages = {
-    onUploadProgress: function (progressEvent) {
-      var percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      console.log(percentCompleted);
-      var dragonHealth = document.getElementById("health1").value;
-      console.log(dragonHealth);
-      document.getElementById("health1").value = percentCompleted;
-    },
-  };
-  const configApk = {
-    onUploadProgress: function (progressEvent) {
-      var percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      console.log(percentCompleted);
-      var dragonHealth = document.getElementById("health1").value;
-      console.log(dragonHealth);
-      document.getElementById("health2").value = percentCompleted;
-    },
-  };
+  // console.log(formData);
+  //  const configImages = {
+  //   onUploadProgress: function (progressEvent) {
+  //     var percentCompleted = Math.round(
+  //       (progressEvent.loaded * 100) / progressEvent.total
+  //     );
+  //     console.log(percentCompleted);
+  //     var dragonHealth = document.getElementById("health1").value;
+  //     console.log(dragonHealth);
+  //     document.getElementById("health1").value = percentCompleted;
+  //   },
+  // };
+  // const configApk = {
+  //   onUploadProgress: function (progressEvent) {
+  //     var percentCompleted = Math.round(
+  //       (progressEvent.loaded * 100) / progressEvent.total
+  //     );
+  //     console.log(percentCompleted);
+  //     var dragonHealth = document.getElementById("health1").value;
+  //     console.log(dragonHealth);
+  //     document.getElementById("health2").value = percentCompleted;
+  //   },
+  // };
   try {
     const rs1 = await axios.patch(`${url}/apk/apkupdate/${apkTitle}`, formData );
     console.log({ rs1 });
@@ -100,23 +100,21 @@ const editApks = async () => {
     //   configImages
     // );
     // console.log({ rs2 });
-    console.log({file});
-    if (file) {
-      const fileData = new FormData();
-    fileData.append("file", file);
-    const rs3 = await axios.patch(
-      `${url}/apk/addApkFile/${apkTitle}`,
-      fileData,
-      configApk
-    );
-    console.log({ rs3 });
+    // console.log({file});
+    // if (file) {
+    //   const fileData = new FormData();
+    // fileData.append("file", file);
+    // const rs3 = await axios.patch(
+    //   `${url}/apk/addApkFile/${apkTitle}`,
+    //   fileData,
+    //   configApk
+    // );
+    // console.log({ rs3 });
+    // window.location = "/products";
 
     }
-    
-
     // console.log({result,datas});
-    window.location = "/products";
-  } catch (error) {
+     catch (error) {
     console.log(error);
   }
 };
