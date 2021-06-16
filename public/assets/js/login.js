@@ -2,7 +2,8 @@
 const params = new URLSearchParams(window.location.search);
 const apkTitle = params.get("title");
 // let url = "http://localhost:4000";
-let url='https://admin.qub-store.com';
+let url = "http://165.227.84.121:4000";
+// let url='https://admin.qub-store.com';
 let g_category;
 let files = []; //This is multiple images
 let g_subCategory;

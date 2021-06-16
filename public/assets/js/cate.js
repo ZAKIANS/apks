@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 const params = new URLSearchParams(window.location.search);
 const cate = params.get("cate");
-// let url = "http://localhost:4000";
-let url='https://admin.qub-store.com';
+let url = "http://165.227.84.121:4000";
+// let url='https://admin.qub-store.com';
 const addCates=document.getElementById('c_button');
 if (addCates) {
   addCates.addEventListener('click',(e)=>{
